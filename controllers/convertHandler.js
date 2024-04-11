@@ -22,8 +22,16 @@ function ConvertHandler() {
     };
 
     this.getUnit = function (input) {
-        const regex = /[a-z]+/i;
-        let result = regex.exec(input)[0];
+        const validUnits = ["gal", "lbs", "mi", "l", "kg", "km"];
+        const regex = /[a-z]/i;
+        const index = input.search(regex);
+        let result = input.slice(index);
+
+        if (index === -1 || !validUnits.includes(result.toLowerCase())) {
+            result = "invalid unit";
+            return result;
+        }
+
         result === "l" || result === "L"
             ? (result = "L")
             : (result = result.toLowerCase());
@@ -39,7 +47,7 @@ function ConvertHandler() {
             kg: "lbs",
             km: "mi",
         };
-        const result = dataStore[initUnit] || "invalid unit";
+        const result = dataStore[initUnit];
         return result;
     };
 
@@ -57,20 +65,16 @@ function ConvertHandler() {
     };
 
     this.convert = function (initNum, initUnit) {
-        try {
-            const convertTable = {
-                gal: (input) => input * 3.78541,
-                lbs: (input) => input * 0.453592,
-                mi: (input) => input * 1.60934,
-                L: (input) => input / 3.78541,
-                kg: (input) => input / 0.453592,
-                km: (input) => input / 1.60934,
-            };
-            const result = convertTable[initUnit](initNum);
-            return result.toFixed(5);
-        } catch (err) {
-            console.log(err.message);
-        }
+        const convertTable = {
+            gal: (input) => input * 3.78541,
+            lbs: (input) => input * 0.453592,
+            mi: (input) => input * 1.60934,
+            L: (input) => input / 3.78541,
+            kg: (input) => input / 0.453592,
+            km: (input) => input / 1.60934,
+        };
+        const result = convertTable[initUnit](initNum);
+        return result.toFixed(5);
     };
 
     this.getString = function (initNum, initUnit, returnNum, returnUnit) {
