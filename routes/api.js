@@ -11,6 +11,18 @@ module.exports = function (app) {
 
         const num = convertHandler.getNum(input);
         const unit = convertHandler.getUnit(input);
+
+        if (num === "invalid number" && unit === "invalid unit") {
+            res.json("invalid number and unit");
+            return;
+        } else if (num === "invalid number") {
+            res.json("invalid number");
+            return;
+        } else if (unit === "invalid unit") {
+            res.json("invalid unit");
+            return;
+        }
+
         const unitSpelledOut = convertHandler.spellOutUnit(unit);
         const returnUnit = convertHandler.getReturnUnit(unit);
         const returnUnitSpelledOut = convertHandler.spellOutUnit(returnUnit);
@@ -22,20 +34,12 @@ module.exports = function (app) {
             returnUnitSpelledOut
         );
 
-        if (num === "invalid number" && returnUnit === "invalid unit") {
-            res.json("invalid number and unit");
-        } else if (num === "invalid number") {
-            res.json("invalid number");
-        } else if (returnUnit === "invalid unit") {
-            res.json("invalid unit");
-        } else {
-            res.json({
-                initNum: Number(num),
-                initUnit: unit,
-                returnNum: Number(returnNum),
-                returnUnit: returnUnit,
-                string: string,
-            });
-        }
+        res.json({
+            initNum: Number(num),
+            initUnit: unit,
+            returnNum: Number(returnNum),
+            returnUnit: returnUnit,
+            string: string,
+        });
     });
 };
