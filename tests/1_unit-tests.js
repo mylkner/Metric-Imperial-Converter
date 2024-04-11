@@ -56,7 +56,7 @@ suite("Unit Tests", function () {
     });
     test("convertHandler correctly returns error for invalid unit.", function () {
         assert.strictEqual(
-            convertHandler.getReturnUnit("27invalid_unit"),
+            convertHandler.getUnit("27invalid_unit"),
             "invalid unit",
             "Correctly returns error for invalid unit"
         );
